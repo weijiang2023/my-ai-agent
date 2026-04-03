@@ -12,5 +12,11 @@
 * the Protocol: Function Calling / ReAct Loop (Structured coordination).
 * the Governance: System Instructions (Safety and behavior guardrails).
 
+### further development directions
+* Add "Memory" (Context Management)
+* Add "Safety Guards" (Human-in-the-Loop)
+* Add Web Browsing (Integration)
+* Build a TUI (User Experience)
+
 ### Target Audience
 * People who want to become an AI Agent Engineer
