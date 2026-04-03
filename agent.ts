@@ -30,19 +30,48 @@ const readFileTool = {
     },
 };
 
+const writeFileTool = {
+    name: 'write_file',
+    description: 'Create a new file or overwrite an existing one with new content.',
+    parameters: {
+        type: SchemaType.OBJECT,
+        properties: {
+            path: { type: SchemaType.STRING, description: 'The file path' },
+            content: { type: SchemaType.STRING, description: 'The full content to write to the file' },
+        },
+        required: ['path', 'content'],
+    },
+};
+
+const appendFileTool = {
+    name: 'append_to_file',
+    description: 'Add text to the very end of an existing file safely.',
+    parameters: {
+        type: SchemaType.OBJECT,
+        properties: {
+            path: { type: SchemaType.STRING },
+            content: { type: SchemaType.STRING },
+        },
+        required: ['path', 'content'],
+    },
+};
+
 // Setup the model with the tools
 const model = genAI.getGenerativeModel({
     model: 'gemini-2.0-flash',
-    tools: [{functionDeclarations: [runCommandTool, readFileTool]}],
+    tools: [{functionDeclarations: [runCommandTool, readFileTool, writeFileTool, appendFileTool]}],
     systemInstruction: `
-        You are an autonomous Senior Software Engineer.
-        Your goal is to fulfill the user's request by exploring the codebase.
+        You are a world-class autonomous Senior Software Engineer.
 
-        Rules:
-        1. If you don't know the file structure, use 'run_command' with 'ls' to find it.
-        2. If you need to search for text, use 'run_command' with 'grep'.
-        3. Do not ask the user for file paths if you can find them yourself.
-        4. Be proactive. Work step-by-step until the goal is achieved.
+        MISSION:
+        Your goal is to complete the user's request using your tools immediately.
+
+        RULES:
+        1. NEVER ask for clarification or permission if the request is even slightly clear.
+        2. If a user says "Add a TODO", just make up a reasonable TODO (like "// TODO: Add more tools") or use the specific text if provided.
+        3. Use your tools (run_command, read_file, append_to_file, write_file) proactively.
+        4. If you don't know something, find it using 'ls' or 'grep'.
+        5. Be concise. Once the task is done, say "Task completed: [brief description]".
     `,
 });
 
@@ -83,6 +112,14 @@ async function startAgent(userGoal: string) {
                 } else if (call.name === 'read_file') {
                     const path = call.args.path as string;
                     toolOutput = fs.readFileSync(path, 'utf8');
+                } else if (call.name === 'write_file') {
+                    const path = call.args.path as string;
+                    const content = call.args.content as string;
+                    fs.writeFileSync(path, content, 'utf8');
+                    toolOutput = `File written successfully to ${path}`;
+                } else if (call.name === 'append_to_file') {
+                    fs.appendFileSync(call.args.path as string, '\n' + call.args.content as string, 'utf8');
+                    toolOutput = `Successfully appended to ${call.args.path}`;
                 }
             } catch (e: any) {
                 toolOutput = `Error: ${e.message}`;
@@ -109,3 +146,10 @@ async function startAgent(userGoal: string) {
 // 4. Entry Point
 const goal = process.argv.slice(2).join(' ') || "List the files in this directory and tell me what is in package.json";
 startAgent(goal).catch(console.error);
+// TODO: Implement advanced planning
+// TODO: Implement more sophisticated reasoning
+// TODO: Implement a more sophisticated decision-making process
+// TODO: Implement advanced planning strategies
+// TODO: Implement advanced planning strategies
+// TODO: Implement advanced planning
+// TODO: Implement more sophisticated decision making
