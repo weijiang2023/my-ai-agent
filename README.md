@@ -18,5 +18,8 @@
 * Add Web Browsing (Integration)
 * Build a TUI (User Experience)
 
+### core concepts
+* chat or agent behavior
+
 ### Target Audience
 * People who want to become an AI Agent Engineer
