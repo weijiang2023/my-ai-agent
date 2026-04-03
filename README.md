@@ -1,4 +1,4 @@
-# the ultimate programming course on how to build your own AI Agent in the year of 2026
+# Suanfamama Code
 ## design principles
 ### the Reason - Decide - Execute - Verify loop
 * Reason: It understood it needed to modify a file.
