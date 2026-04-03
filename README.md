@@ -1,4 +1,4 @@
-# my-ai-agent
+# the ultimate programming course on how to build your own AI Agent in the year of 2026
 ## design principles
 ### the Reason - Decide - Execute - Verify loop
 * Reason: It understood it needed to modify a file.
@@ -17,6 +17,9 @@
 * Add "Safety Guards" (Human-in-the-Loop)
 * Add Web Browsing (Integration)
 * Build a TUI (User Experience)
+
+### the Agent Engineering Roadmap
+![](./docs/roadmap.20260403.png)
 
 ### Target Audience
 * People who want to become an AI Agent Engineer
