@@ -34,6 +34,16 @@ const readFileTool = {
 const model = genAI.getGenerativeModel({
     model: 'gemini-2.0-flash',
     tools: [{functionDeclarations: [runCommandTool, readFileTool]}],
+    systemInstruction: `
+        You are an autonomous Senior Software Engineer.
+        Your goal is to fulfill the user's request by exploring the codebase.
+
+        Rules:
+        1. If you don't know the file structure, use 'run_command' with 'ls' to find it.
+        2. If you need to search for text, use 'run_command' with 'grep'.
+        3. Do not ask the user for file paths if you can find them yourself.
+        4. Be proactive. Work step-by-step until the goal is achieved.
+    `,
 });
 
 // 3. The Core Agent Loop (ReAct Pattern)
